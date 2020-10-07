@@ -9,7 +9,6 @@ import lombok.Data;
 @Data
 @Entity
 public class User {
-//	private @Id @GeneratedValue Long id;
     private String first_name;
     private String last_name;
     private String company_name;

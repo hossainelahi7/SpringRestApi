@@ -46,12 +46,4 @@ class LoadDatabase {
 		};
 	}
 	
-//	public static void main(String[] args) {
-//		List<User> users;
-//		DataUtils data = new DataUtils();
-//		users = data.getJsonObject("data/", "users", new TypeToken<ArrayList<User>>(){}.getType());
-//		System.out.println(users);
-//	}
-
-
 }

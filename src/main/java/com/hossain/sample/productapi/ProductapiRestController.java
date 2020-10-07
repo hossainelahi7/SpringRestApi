@@ -19,7 +19,6 @@ public class ProductapiRestController {
 
 	private final ProductRepository repository;
 
-//	@Autowired
 	ProductapiRestController(ProductRepository repository) {
 		this.repository = repository;
 	}

@@ -5,10 +5,12 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @Configuration
 @ComponentScan(basePackages = {"com.hossain.sample.productapi", "com.hossain.sample.database"})
 @EnableAutoConfiguration
+//@EnableJpaRepositories("com.hossain.sample.productapi.repository.ProductRepository")
 @SpringBootApplication
 public class ProductapiApplication {
 

@@ -1,6 +1,5 @@
 package com.hossain.sample.database;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +12,9 @@ import org.springframework.context.annotation.Configuration;
 import com.google.gson.reflect.TypeToken;
 import com.hossain.sample.productapi.object.DataUtils;
 import com.hossain.sample.productapi.object.Product;
+import com.hossain.sample.productapi.object.User;
 import com.hossain.sample.productapi.repository.ProductRepository;
+import com.hossain.sample.productapi.repository.UserRepository;
 
 
 @Configuration
@@ -22,7 +23,7 @@ class LoadDatabase {
 	private static final Logger log = LoggerFactory.getLogger(LoadDatabase.class);
 
 	@Bean
-	CommandLineRunner initDatabase(ProductRepository repository) {
+	CommandLineRunner initProductDatabase(ProductRepository repository) {
 		return args -> {
 			List<Product> products;
 			DataUtils data = new DataUtils();
@@ -33,11 +34,23 @@ class LoadDatabase {
 		};
 	}
 	
+	@Bean
+	CommandLineRunner initUserDatabase(UserRepository repository) {
+		return args -> {
+			List<User> users;
+			DataUtils data = new DataUtils();
+			users = data.getJsonObject("data/", "users", new TypeToken<ArrayList<User>>(){}.getType());
+			for(User user: users) {
+				log.info("Preloading "+ repository.save(user));
+			}
+		};
+	}
+	
 //	public static void main(String[] args) {
-//		List<Product> products;
+//		List<User> users;
 //		DataUtils data = new DataUtils();
-//		products = data.getJsonObject("data/", "products", new TypeToken<ArrayList<Product>>(){}.getType());
-//		System.out.println(products);
+//		users = data.getJsonObject("data/", "users", new TypeToken<ArrayList<User>>(){}.getType());
+//		System.out.println(users);
 //	}
 
 

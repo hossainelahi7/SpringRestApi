@@ -9,9 +9,9 @@ import lombok.Data;
 @Data
 @Entity
 public class User {
-    private String first_name;
-    private String last_name;
-    private String company_name;
+    private String firstName;
+    private String lastName;
+    private String companyName;
     private String address;
     private String city;
     private String county;

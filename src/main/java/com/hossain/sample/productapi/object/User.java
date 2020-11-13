@@ -9,6 +9,7 @@ import lombok.Data;
 @Data
 @Entity
 public class User {
+	private @Id @GeneratedValue Integer id;
     private String firstName;
     private String lastName;
     private String companyName;
@@ -19,7 +20,7 @@ public class User {
     private Integer zip;
     private String phone1;
     private String phone2;
-    private @Id String email;
+    private String email;
     private String web;	
 
 }

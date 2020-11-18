@@ -25,24 +25,24 @@ public class ProductapiRestController {
 
 	// Aggregate root
 
-	@GetMapping("/product")
+	@GetMapping("/api/product")
 	List<Product> all() {
 		return repository.findAll();
 	}
 
-	@PostMapping("/product")
+	@PostMapping("/api/product")
 	Product newProduct(@RequestBody Product newProduct) {
 		return repository.save(newProduct);
 	}
 
 	// Single item
 
-	@GetMapping("/product/{id}")
+	@GetMapping("/api/product/{id}")
 	Product one(@PathVariable Integer id) {
 		return repository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
 	}
 
-	@PutMapping("/product/{id}")
+	@PutMapping("/api/product/{id}")
 	  Product replaceEmployee(@RequestBody Product newProduct, @PathVariable Integer id) {
 	    return repository.findById(id)
 	    		.map(product -> {
@@ -60,7 +60,7 @@ public class ProductapiRestController {
 	      });
 	  }
 
-	@DeleteMapping("/product/{id}")
+	@DeleteMapping("/api/product/{id}")
 	void deleteEmployee(@PathVariable Integer id) {
 		repository.deleteById(id);
 	}

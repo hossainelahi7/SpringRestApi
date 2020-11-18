@@ -32,22 +32,22 @@ public class UserapiRestController {
 		this.repository = repository;
 	}
 	
-	@GetMapping("/")
+	@GetMapping("/api")
 	String getString() {
 		return "Welcome to API world, where everything is possible.";
 	}
 	
-	@GetMapping("/user")
+	@GetMapping("/api/user")
 	List<User> all(){
 		return repository.findAll();
 	}
 	
-	@GetMapping("/user/{id}")
+	@GetMapping("/api/user/{id}")
 	User getUser(@PathVariable Integer id) {
 		return repository.findById(id).orElseThrow(()-> new UserNotFoudException(id));
 	}
 	
-	@GetMapping("/user/search")
+	@GetMapping("/api/user/search")
 	Iterable<User> getUserByName(@RequestParam(value = "first", required = false) String firstName, @RequestParam(value="last", required=false) String lastName) {
 		if(firstName != null && lastName!=null)
 			return repository.findByFirstNameAndLastName(firstName, lastName);
@@ -58,12 +58,13 @@ public class UserapiRestController {
 		else return all();
 	}
 	
-	@PostMapping("/authenticate")
+	@PostMapping("/api/authenticate")
     public String generateToken(@RequestBody AuthRequest authRequest) throws Exception {
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword())
             );
+            System.out.println("login requested for: "+ authRequest);
         } catch (Exception ex) {
             throw new Exception("inavalid username/password");
         }

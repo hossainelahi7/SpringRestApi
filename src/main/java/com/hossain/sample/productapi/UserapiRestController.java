@@ -64,11 +64,10 @@ public class UserapiRestController {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword())
             );
-            System.out.println("login requested for: "+ authRequest);
         } catch (Exception ex) {
             throw new Exception("inavalid username/password");
         }
-        return jwtUtil.generateToken(authRequest.getUsername());
+        return "Bearer "+ jwtUtil.generateToken(authRequest.getUsername());
     }
 	
 	

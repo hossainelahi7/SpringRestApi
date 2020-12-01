@@ -16,6 +16,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Enumeration;
 
 @Component
 public class JwtFilter extends OncePerRequestFilter {
@@ -42,7 +43,14 @@ public class JwtFilter extends OncePerRequestFilter {
 		response.addHeader("Access-Control-Expose-Headers", "observe");
 
         String authorizationHeader = request.getHeader("Authorization");
-
+        System.out.println("Referer: " + request.getHeader("Referer"));
+//        System.out.println("Authorization: " + request.getHeaderNames());
+        Enumeration<String> headerNames = request.getHeaderNames();
+        if (headerNames != null) {
+            while (headerNames.hasMoreElements()) {
+                    System.out.println("Header: " + request.getHeader(headerNames.nextElement()));
+            }
+    }
         String token = null;
         String userName = null;
 

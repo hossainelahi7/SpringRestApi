@@ -9,12 +9,11 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ComponentScan(basePackages = {"com.hossain.sample.productapi", "com.hossain.sample.database"})
 @EnableAutoConfiguration
-//@EnableJpaRepositories("com.hossain.sample.productapi.repository.ProductRepository")
 @SpringBootApplication
 public class ProductapiApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ProductapiApplication.class, args);
 	}
-
+	
 }

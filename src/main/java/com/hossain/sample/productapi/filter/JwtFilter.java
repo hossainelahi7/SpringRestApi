@@ -44,7 +44,7 @@ public class JwtFilter extends OncePerRequestFilter implements WebMvcConfigurer 
         String authorizationHeader = request.getHeader("Authorization");
         String token = null;
         String userName = null;
-
+        System.out.println("WebConfig; " + request.getRequestURI());
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             token = authorizationHeader.substring(7);
             userName = jwtUtil.extractUsername(token);
@@ -65,7 +65,7 @@ public class JwtFilter extends OncePerRequestFilter implements WebMvcConfigurer 
     
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
-		registry.addMapping("/api/product")
+		registry.addMapping("/api/***")
 		.allowedOrigins("http://localhost:4200");
 	}
     

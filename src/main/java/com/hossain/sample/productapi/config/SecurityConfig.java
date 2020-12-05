@@ -15,7 +15,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.hossain.sample.productapi.filter.JwtFilter;
-import com.hossain.sample.productapi.filter.JwtFilter2;
 import com.hossain.sample.productapi.repository.UserDetailsRepository;
 
 @Configuration
@@ -44,20 +43,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return super.authenticationManagerBean();
 	}
 
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		http.csrf()
+			.disable()
+			.authorizeRequests()
+			.antMatchers("/api/authenticate").permitAll()
+			.anyRequest().authenticated()
+			.and().exceptionHandling()
+			.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+	}
+
 	/*
 	 * @Override protected void configure(HttpSecurity http) throws Exception {
 	 * http.csrf().disable().authorizeRequests().antMatchers("/api/authenticate").
-	 * permitAll().anyRequest()
-	 * .authenticated().and().exceptionHandling().and().sessionManagement()
-	 * .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-	 * http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-	 * ; }
+	 * permitAll().anyRequest() .authenticated(); http.addFilterBefore(jwtFilter,
+	 * UsernamePasswordAuthenticationFilter.class); ; }
 	 */
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().authorizeRequests().antMatchers("/api/authenticate")
-                .permitAll().anyRequest().authenticated();
-        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);;
-    }
 }

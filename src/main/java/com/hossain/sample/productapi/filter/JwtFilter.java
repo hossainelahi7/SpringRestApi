@@ -7,6 +7,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.hossain.sample.productapi.repository.UserDetailsRepository;
 import com.hossain.sample.productapi.util.JwtUtil;
@@ -19,7 +21,7 @@ import java.io.IOException;
 import java.util.Enumeration;
 
 @Component
-public class JwtFilter extends OncePerRequestFilter {
+public class JwtFilter extends OncePerRequestFilter implements WebMvcConfigurer {
 
     @Autowired
     private JwtUtil jwtUtil;
@@ -44,13 +46,13 @@ public class JwtFilter extends OncePerRequestFilter {
 
         String authorizationHeader = request.getHeader("Authorization");
         System.out.println("Referer: " + request.getHeader("Referer"));
-//        System.out.println("Authorization: " + request.getHeaderNames());
-        Enumeration<String> headerNames = request.getHeaderNames();
-        if (headerNames != null) {
-            while (headerNames.hasMoreElements()) {
-                    System.out.println("Header: " + request.getHeader(headerNames.nextElement()));
-            }
-    }
+        System.out.println("Authorization: " + request.getHeader("Authorization"));
+//        Enumeration<String> headerNames = request.getHeaderNames();
+//        if (headerNames != null) {
+//            while (headerNames.hasMoreElements()) {
+//                    System.out.println("Header: " + request.getHeader(headerNames.nextElement()));
+//            }
+//    }
         String token = null;
         String userName = null;
 
@@ -74,4 +76,12 @@ public class JwtFilter extends OncePerRequestFilter {
         }
         filterChain.doFilter(req, res);
     }
+    
+	@Override
+	public void addCorsMappings(CorsRegistry registry) {
+		registry.addMapping("/api/product")
+		.allowedOrigins("http://localhost:4200");
+//		.allowedMethods("GET", "POST");
+	}
+    
 }

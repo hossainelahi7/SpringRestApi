@@ -55,10 +55,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 	}
 
-	/*
-	 * @Override protected void configure(HttpSecurity http) throws Exception {
-	 * http.csrf().disable().authorizeRequests().antMatchers("/api/authenticate").
-	 * permitAll().anyRequest() .authenticated(); http.addFilterBefore(jwtFilter,
-	 * UsernamePasswordAuthenticationFilter.class); ; }
-	 */
 }

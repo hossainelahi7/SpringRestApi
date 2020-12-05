@@ -18,7 +18,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Enumeration;
 
 @Component
 public class JwtFilter extends OncePerRequestFilter implements WebMvcConfigurer {
@@ -33,7 +32,6 @@ public class JwtFilter extends OncePerRequestFilter implements WebMvcConfigurer 
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain filterChain) throws ServletException, IOException {
 		HttpServletResponse response = (HttpServletResponse) res;
 		HttpServletRequest request = (HttpServletRequest) req;
-		System.out.println("WebConfig; " + request.getRequestURI());
 		response.setHeader("Access-Control-Allow-Origin", "*");
 		response.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE");
 		response.setHeader("Access-Control-Allow-Headers",
@@ -43,16 +41,7 @@ public class JwtFilter extends OncePerRequestFilter implements WebMvcConfigurer 
 		response.setHeader("Access-Control-Expose-Headers", "Authorization");
 		response.addHeader("Access-Control-Expose-Headers", "responseType");
 		response.addHeader("Access-Control-Expose-Headers", "observe");
-
         String authorizationHeader = request.getHeader("Authorization");
-        System.out.println("Referer: " + request.getHeader("Referer"));
-        System.out.println("Authorization: " + request.getHeader("Authorization"));
-//        Enumeration<String> headerNames = request.getHeaderNames();
-//        if (headerNames != null) {
-//            while (headerNames.hasMoreElements()) {
-//                    System.out.println("Header: " + request.getHeader(headerNames.nextElement()));
-//            }
-//    }
         String token = null;
         String userName = null;
 
@@ -62,11 +51,8 @@ public class JwtFilter extends OncePerRequestFilter implements WebMvcConfigurer 
         }
 
         if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-
             UserDetails userDetails = service.loadUserByUsername(userName);
-
             if (jwtUtil.validateToken(token, userDetails)) {
-
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                         new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 usernamePasswordAuthenticationToken
@@ -81,7 +67,6 @@ public class JwtFilter extends OncePerRequestFilter implements WebMvcConfigurer 
 	public void addCorsMappings(CorsRegistry registry) {
 		registry.addMapping("/api/product")
 		.allowedOrigins("http://localhost:4200");
-//		.allowedMethods("GET", "POST");
 	}
     
 }

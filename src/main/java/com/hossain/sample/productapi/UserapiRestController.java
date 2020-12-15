@@ -1,6 +1,6 @@
 package com.hossain.sample.productapi;
 
-import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,6 +25,8 @@ public class UserapiRestController {
     private JwtUtil jwtUtil;
     @Autowired
     private AuthenticationManager authenticationManager;
+    
+    private AuthRequest auth;
 
 	private final UserRepository repository;
 	
@@ -37,29 +39,52 @@ public class UserapiRestController {
 		return "Welcome to API world, where everything is possible.";
 	}
 	
+	/*
+	 * @GetMapping("/api/user") List<User> all(){ return repository.findAll(); }
+	 */
+	
 	@GetMapping("/api/user")
-	List<User> all(){
-		return repository.findAll();
+	User getUser(){
+		try {
+			return repository.findByEmail(auth.getUsername()).iterator().next();
+		}catch(NoSuchElementException e) {
+			throw new UserNotFoudException(auth.getUsername());
+		}
 	}
 	
-	@GetMapping("/api/user/{id}")
+//	@GetMapping("/api/user/{id}")
 	User getUser(@PathVariable Integer id) {
 		return repository.findById(id).orElseThrow(()-> new UserNotFoudException(id));
 	}
 	
-	@GetMapping("/api/user/search")
-	Iterable<User> getUserByName(@RequestParam(value = "first", required = false) String firstName, @RequestParam(value="last", required=false) String lastName) {
+//	@GetMapping("/api/user/search")
+	User getUser(@RequestParam(value = "first", required = false) String firstName, 
+			@RequestParam(value="last", required=false) String lastName,
+			@RequestParam(value="email", required=false) String email) {
+		try {
+			return getUsers(firstName, lastName, email).iterator().next();
+		}catch(NoSuchElementException e) {
+			throw new UserNotFoudException(email);
+		}
+			
+	}
+	
+	Iterable<User> getUsers(String firstName, String lastName, String email){
 		if(firstName != null && lastName!=null)
 			return repository.findByFirstNameAndLastName(firstName, lastName);
 		else if (firstName!= null)
 			return repository.findByfirstName(firstName);
 		else if (lastName!=null)
 			return repository.findBylastName(lastName);
-		else return all();
+		else if (email!=null)
+			return repository.findByEmail(email);
+		else return null;
+
 	}
 	
 	@PostMapping("/api/authenticate")
     public String generateToken(@RequestBody AuthRequest authRequest) throws Exception {
+		auth = authRequest;
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword())

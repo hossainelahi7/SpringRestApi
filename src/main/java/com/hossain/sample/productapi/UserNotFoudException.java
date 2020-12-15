@@ -10,5 +10,9 @@ public class UserNotFoudException extends RuntimeException{
 	public UserNotFoudException(Integer id) {
 		super("Could not find user "+id);
 	}
+	
+	public UserNotFoudException(String userId) {
+		super("Could not find user "+userId);
+	}
 
 }

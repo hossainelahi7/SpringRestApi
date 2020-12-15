@@ -42,7 +42,7 @@ public class JwtFilter extends OncePerRequestFilter implements WebMvcConfigurer 
 		response.addHeader("Access-Control-Expose-Headers", "responseType");
 		response.addHeader("Access-Control-Expose-Headers", "observe");
 //        String authorizationHeader = request.getHeader("Authorization");
-		String authorizationHeader = "add token manually for authentication ";
+		String authorizationHeader = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJscGFwcm9ja2lAaG90bWFpbC5jb20iLCJleHAiOjE2MDgwMDc2NzcsImlhdCI6MTYwODAwNDA3N30.1rWMiRvWhMBrT095MOPmxCxU6Ca8_V_ET_gazNJn438";
         String token = null;
         String userName = null;
         System.out.println("WebConfig; " + request.getRequestURI());
